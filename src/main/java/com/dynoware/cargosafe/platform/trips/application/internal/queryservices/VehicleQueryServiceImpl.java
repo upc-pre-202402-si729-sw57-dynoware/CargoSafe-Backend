@@ -3,6 +3,7 @@ package com.dynoware.cargosafe.platform.trips.application.internal.queryservices
 import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Vehicle;
 import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetAllVehiclesQuery;
 import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetVehicleByIdQuery;
+import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetVehicleByModelQuery;
 import com.dynoware.cargosafe.platform.trips.domain.services.VehicleQueryService;
 import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class VehicleQueryServiceImpl implements VehicleQueryService {
     @Override
     public List<Vehicle> handle(GetAllVehiclesQuery query) {
         return this.vehicleRepository.findAll();
+    }
+
+    @Override
+    public Optional<Vehicle> handle(GetVehicleByModelQuery query) {
+        return this.vehicleRepository.findByModel(query.model());
     }
 }

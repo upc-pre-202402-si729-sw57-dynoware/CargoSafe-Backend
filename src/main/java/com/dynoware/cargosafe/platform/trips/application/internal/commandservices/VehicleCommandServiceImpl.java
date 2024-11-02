@@ -20,8 +20,8 @@ public class VehicleCommandServiceImpl implements VehicleCommandService {
 
     @Override
     public Optional<Vehicle> handle(CreateVehicleCommand command) {
-        if (vehicleRepository.existsByVehicleModel(command.model())) {
-            throw new IllegalArgumentException("A vehicle with that id already exists");
+        if (vehicleRepository.existsByModel(command.model())) {
+            throw new IllegalArgumentException("A vehicle with that model already exists");
         }
         var vehicle = new Vehicle(command);
         try {
@@ -35,7 +35,7 @@ public class VehicleCommandServiceImpl implements VehicleCommandService {
 
     @Override
     public Optional<Vehicle> handle(UpdateVehicleCommand command) {
-        if (vehicleRepository.existsByVehicleModel(command.model())) {
+        if (vehicleRepository.existsByModel(command.model())) {
             throw new IllegalArgumentException("A vehicle with that model already exists");
         }
         var vehicle = vehicleRepository.findById(command.id());
