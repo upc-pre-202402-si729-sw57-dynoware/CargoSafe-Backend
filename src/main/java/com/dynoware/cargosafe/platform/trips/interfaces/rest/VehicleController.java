@@ -29,9 +29,9 @@ public class VehicleController {
         this.vehicleCommandService = vehicleCommandService;
     }
 
-    @GetMapping("/{vehicleId}")
-    public ResponseEntity<VehicleResource> getVehicleById(@PathVariable Long vehicleId) {
-        var getVehicleByIdQuery = new GetVehicleByIdQuery(vehicleId);
+    @GetMapping("/{id}")
+    public ResponseEntity<VehicleResource> getVehicleById(@PathVariable Long id) {
+        var getVehicleByIdQuery = new GetVehicleByIdQuery(id);
         var vehicle = vehicleQueryService.handle(getVehicleByIdQuery);
         if (vehicle.isEmpty()) return ResponseEntity.notFound().build();
 
@@ -55,18 +55,20 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleResource);
     }
 
-    @PutMapping("/{vehicleId}")
-    public ResponseEntity<VehicleResource> updateVehicle(@PathVariable Long vehicleId, @RequestBody UpdateVehicleResource resource) {
-        var updateVehicleCommand = UpdateVehicleCommandFromResourceAssembler.toCommandFromResource(vehicleId, resource);
+    @PutMapping("/{id}")
+    public ResponseEntity<VehicleResource> updateVehicle(@PathVariable Long id, @RequestBody UpdateVehicleResource resource) {
+        var updateVehicleCommand = UpdateVehicleCommandFromResourceAssembler.toCommandFromResource(id, resource);
         var updatedVehicle = vehicleCommandService.handle(updateVehicleCommand);
-        if (updatedVehicle.isEmpty()) return ResponseEntity.notFound().build();
+        if (updatedVehicle.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         var vehicleResource = VehicleResourceFromEntityAssembler.transformResourceFromEntity(updatedVehicle.get());
         return ResponseEntity.ok(vehicleResource);
     }
 
-    @DeleteMapping("/{vehicleId}")
-    public ResponseEntity<?> deleteVehicle(@PathVariable Long vehicleId) {
-        var deleteVehicleCommand = new DeleteVehicleCommand(vehicleId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteVehicle(@PathVariable Long id) {
+        var deleteVehicleCommand = new DeleteVehicleCommand(id);
         vehicleCommandService.handle(deleteVehicleCommand);
         return ResponseEntity.ok("Vehicle deleted successfully");
     }
