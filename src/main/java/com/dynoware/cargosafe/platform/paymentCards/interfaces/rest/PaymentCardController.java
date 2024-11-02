@@ -1,6 +1,7 @@
 package com.dynoware.cargosafe.platform.paymentCards.interfaces.rest;
 
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.CreatePaymentCardCommand;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.DeletePaymentCardCommand;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.queries.GetPaymentCardByIdQuery;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardCommandService;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardQueryService;
@@ -53,5 +54,17 @@ public class PaymentCardController {
         var paymentCardEntity = paymentCard.get();
         var paymentCardResource = PaymentCardResourceFromEntityAssembler.toResourceFromEntity(paymentCardEntity);
         return ResponseEntity.ok(paymentCardResource);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete payment card by id", description = "Delete payment card by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Payment card deleted"),
+            @ApiResponse(responseCode = "404", description = "Payment card not found")
+    })
+    public ResponseEntity<?> deletePaymentCardById(@PathVariable Long id) {
+        var deletePaymentCardCommand = new DeletePaymentCardCommand(id);
+        paymentCardCommandService.handle(deletePaymentCardCommand);
+        return ResponseEntity.ok("Payment card with given id successfully deleted");
     }
 }

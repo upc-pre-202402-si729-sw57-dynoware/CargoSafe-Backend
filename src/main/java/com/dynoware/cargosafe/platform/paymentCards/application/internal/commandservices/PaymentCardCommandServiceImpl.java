@@ -1,6 +1,7 @@
 package com.dynoware.cargosafe.platform.paymentCards.application.internal.commandservices;
 
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.CreatePaymentCardCommand;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.DeletePaymentCardCommand;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardCommandService;
 import com.dynoware.cargosafe.platform.paymentCards.infrastructure.persistence.jpa.repositories.PaymentCardRepository;
@@ -21,6 +22,17 @@ public class PaymentCardCommandServiceImpl implements PaymentCardCommandService 
             repository.save(paymentCard);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error saving the card: %s".formatted(e.getMessage()));
+        }
+    }
+
+    @Override
+    public void handle(DeletePaymentCardCommand command) {
+        if(!repository.existsById(command.id()))
+            throw new IllegalArgumentException("Payment card with id %s not found".formatted(command.id()));
+        try {
+            repository.deleteById(command.id());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error deleting payment card: %s".formatted(e.getMessage()));
         }
     }
 }
