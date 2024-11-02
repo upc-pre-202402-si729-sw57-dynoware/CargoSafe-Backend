@@ -1,6 +1,5 @@
 package com.dynoware.cargosafe.platform.paymentCards.interfaces.rest;
 
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.CreatePaymentCardCommand;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.DeletePaymentCardCommand;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.queries.GetPaymentCardByIdQuery;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardCommandService;
@@ -20,7 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/api/v1/payment-card", produces = APPLICATION_JSON_VALUE)
-@Tag(name = "CouPayment Card", description = "Available Payment Card Endpoints")
+@Tag(name = "Payment Card", description = "Available Payment Card Endpoints")
 public class PaymentCardController {
     private final PaymentCardCommandService paymentCardCommandService;
     private final PaymentCardQueryService paymentCardQueryService;
