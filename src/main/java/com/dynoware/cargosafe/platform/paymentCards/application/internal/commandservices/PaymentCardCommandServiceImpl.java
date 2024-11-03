@@ -2,7 +2,7 @@ package com.dynoware.cargosafe.platform.paymentCards.application.internal.comman
 
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.CreatePaymentCardCommand;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.DeletePaymentCardCommand;
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates.PaymentCard;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardCommandService;
 import com.dynoware.cargosafe.platform.paymentCards.infrastructure.persistence.jpa.repositories.PaymentCardRepository;
 import org.springframework.stereotype.Service;

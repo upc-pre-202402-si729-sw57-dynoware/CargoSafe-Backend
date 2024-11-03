@@ -1,4 +1,4 @@
-package com.dynoware.cargosafe.platform.companies.domain.model.entities;
+package com.dynoware.cargosafe.platform.companies.domain.model.aggregates;
 
 import com.dynoware.cargosafe.platform.companies.domain.model.commands.CreateCompanieCommand;
 import jakarta.persistence.Entity;

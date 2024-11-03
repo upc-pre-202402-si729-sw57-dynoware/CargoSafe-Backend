@@ -1,6 +1,6 @@
 package com.dynoware.cargosafe.platform.paymentCards.domain.services;
 
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates.PaymentCard;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.queries.GetPaymentCardByIdQuery;
 
 import java.util.Optional;

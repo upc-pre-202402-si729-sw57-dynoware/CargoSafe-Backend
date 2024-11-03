@@ -1,6 +1,6 @@
 package com.dynoware.cargosafe.platform.paymentCards.infrastructure.persistence.jpa.repositories;
 
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates.PaymentCard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

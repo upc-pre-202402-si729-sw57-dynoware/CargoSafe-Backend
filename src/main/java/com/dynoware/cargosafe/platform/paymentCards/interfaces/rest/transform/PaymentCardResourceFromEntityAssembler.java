@@ -1,6 +1,6 @@
 package com.dynoware.cargosafe.platform.paymentCards.interfaces.rest.transform;
 
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates.PaymentCard;
 import com.dynoware.cargosafe.platform.paymentCards.interfaces.rest.resources.PaymentCardResource;
 
 public class PaymentCardResourceFromEntityAssembler {

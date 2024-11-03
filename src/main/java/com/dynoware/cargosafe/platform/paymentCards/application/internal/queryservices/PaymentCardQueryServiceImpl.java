@@ -1,6 +1,6 @@
 package com.dynoware.cargosafe.platform.paymentCards.application.internal.queryservices;
 
-import com.dynoware.cargosafe.platform.paymentCards.domain.model.entities.PaymentCard;
+import com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates.PaymentCard;
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.queries.GetPaymentCardByIdQuery;
 import com.dynoware.cargosafe.platform.paymentCards.domain.services.PaymentCardQueryService;
 import com.dynoware.cargosafe.platform.paymentCards.infrastructure.persistence.jpa.repositories.PaymentCardRepository;

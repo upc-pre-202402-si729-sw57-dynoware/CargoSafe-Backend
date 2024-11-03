@@ -1,4 +1,4 @@
-package com.dynoware.cargosafe.platform.paymentCards.domain.model.entities;
+package com.dynoware.cargosafe.platform.paymentCards.domain.model.aggregates;
 
 import com.dynoware.cargosafe.platform.paymentCards.domain.model.commands.CreatePaymentCardCommand;
 import com.dynoware.cargosafe.platform.shared.domain.model.entities.AuditableModel;

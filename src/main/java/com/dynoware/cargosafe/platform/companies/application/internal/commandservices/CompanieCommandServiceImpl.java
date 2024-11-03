@@ -2,7 +2,7 @@ package com.dynoware.cargosafe.platform.companies.application.internal.commandse
 
 import com.dynoware.cargosafe.platform.companies.domain.model.commands.CreateCompanieCommand;
 import com.dynoware.cargosafe.platform.companies.domain.model.commands.DeleteCompanieCommand;
-import com.dynoware.cargosafe.platform.companies.domain.model.entities.Companie;
+import com.dynoware.cargosafe.platform.companies.domain.model.aggregates.Companie;
 import com.dynoware.cargosafe.platform.companies.domain.services.CompanieCommandService;
 import com.dynoware.cargosafe.platform.companies.infrastructure.persistence.jpa.repositories.CompanieRepository;
 import org.springframework.stereotype.Service;
