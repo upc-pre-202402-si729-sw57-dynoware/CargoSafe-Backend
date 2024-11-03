@@ -1,7 +1,7 @@
 package com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform;
 
-import com.acme.center.platform.profiles.domain.model.aggregates.Profile;
-import com.acme.center.platform.profiles.interfaces.rest.resources.ProfileResource;
+import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.ProfileResource;
 
 /**
  * Assembler to convert a Profile entity to a ProfileResource.

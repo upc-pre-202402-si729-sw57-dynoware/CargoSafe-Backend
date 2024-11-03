@@ -1,7 +1,7 @@
 package com.dynoware.cargosafe.platform.profiles.domain.services;
 
-import com.acme.center.platform.profiles.domain.model.aggregates.Profile;
-import com.acme.center.platform.profiles.domain.model.commands.CreateProfileCommand;
+import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
 
 import java.util.Optional;
 

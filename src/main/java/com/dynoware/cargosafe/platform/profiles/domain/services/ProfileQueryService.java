@@ -1,9 +1,9 @@
 package com.dynoware.cargosafe.platform.profiles.domain.services;
 
-import com.acme.center.platform.profiles.domain.model.aggregates.Profile;
-import com.acme.center.platform.profiles.domain.model.queries.GetAllProfilesQuery;
-import com.acme.center.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
-import com.acme.center.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetAllProfilesQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByIdQuery;
 
 import java.util.List;
 import java.util.Optional;

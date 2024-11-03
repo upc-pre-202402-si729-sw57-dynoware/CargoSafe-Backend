@@ -1,7 +1,7 @@
 package com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform;
 
-import com.acme.center.platform.profiles.domain.model.commands.CreateProfileCommand;
-import com.acme.center.platform.profiles.interfaces.rest.resources.CreateProfileResource;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.CreateProfileResource;
 
 /**
  * Assembler to convert a CreateProfileResource to a CreateProfileCommand.

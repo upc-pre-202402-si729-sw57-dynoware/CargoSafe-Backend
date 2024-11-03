@@ -1,10 +1,10 @@
 package com.dynoware.cargosafe.platform.profiles.domain.model.aggregates;
 
-import com.acme.center.platform.profiles.domain.model.commands.CreateProfileCommand;
-import com.acme.center.platform.profiles.domain.model.valueobjects.EmailAddress;
-import com.acme.center.platform.profiles.domain.model.valueobjects.PersonName;
-import com.acme.center.platform.profiles.domain.model.valueobjects.StreetAddress;
-import com.acme.center.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
+import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.EmailAddress;
+import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.PersonName;
+import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.StreetAddress;
+import com.dynoware.cargosafe.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 
 /**

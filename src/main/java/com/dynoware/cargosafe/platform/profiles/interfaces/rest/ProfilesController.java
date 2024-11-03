@@ -1,13 +1,13 @@
 package com.dynoware.cargosafe.platform.profiles.interfaces.rest;
 
-import com.acme.center.platform.profiles.domain.model.queries.GetAllProfilesQuery;
-import com.acme.center.platform.profiles.domain.model.queries.GetProfileByIdQuery;
-import com.acme.center.platform.profiles.domain.services.ProfileCommandService;
-import com.acme.center.platform.profiles.domain.services.ProfileQueryService;
-import com.acme.center.platform.profiles.interfaces.rest.resources.CreateProfileResource;
-import com.acme.center.platform.profiles.interfaces.rest.resources.ProfileResource;
-import com.acme.center.platform.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
-import com.acme.center.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetAllProfilesQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileCommandService;
+import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileQueryService;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.CreateProfileResource;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.ProfileResource;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
