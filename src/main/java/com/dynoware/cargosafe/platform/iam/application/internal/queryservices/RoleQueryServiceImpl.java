@@ -11,27 +11,27 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * RoleQueryServiceImpl class
- * This class is used to handle the role queries
+ * RoleQueryServiceImpl
+ * <p>
+ *     Implementation of the {@link RoleQueryService} interface.
+ * </p>
  */
 @Service
 public class RoleQueryServiceImpl implements RoleQueryService {
     private final RoleRepository roleRepository;
 
     /**
-     * RoleQueryServiceImpl constructor
-     *
-     * @param roleRepository the role repository
+     * Constructor
+     * @param roleRepository the {@link RoleRepository} instance
      */
     public RoleQueryServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
     /**
-     * Handle the get all roles query
-     *
-     * @param query the get all roles query
-     * @return List<Role> the list of roles
+     * Handles the {@link GetAllRolesQuery} query.
+     * @param query the {@link GetAllRolesQuery} instance
+     * @return the list of {@link Role} instances
      */
     @Override
     public List<Role> handle(GetAllRolesQuery query) {
@@ -39,13 +39,12 @@ public class RoleQueryServiceImpl implements RoleQueryService {
     }
 
     /**
-     * Handle the get role by name query
-     *
-     * @param query the get role by name query
-     * @return Optional<Role> the role
+     * Handles the {@link GetRoleByNameQuery} query.
+     * @param query the {@link GetRoleByNameQuery} instance
+     * @return the {@link Role} instance if found
      */
     @Override
     public Optional<Role> handle(GetRoleByNameQuery query) {
-        return roleRepository.findByName(query.roleName());
+        return roleRepository.findByName(query.name());
     }
 }

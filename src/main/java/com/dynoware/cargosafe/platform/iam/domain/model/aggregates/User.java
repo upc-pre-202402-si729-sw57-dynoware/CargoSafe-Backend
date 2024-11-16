@@ -19,9 +19,9 @@ import java.util.Set;
 @Setter
 @Entity
 public class User extends AuditableAbstractAggregateRoot<User> {
+
     @NotBlank
     @Size(max = 50)
-    @Column(unique = true)
     private String username;
 
     @NotBlank
@@ -44,8 +44,8 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     /**
      * Constructor with username and password.
      *
-     * @param username the username
-     * @param password the password
+     * @param username the username.
+     * @param password the password.
      */
     public User(String username, String password) {
         this();
@@ -57,20 +57,22 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     /**
      * Constructor with username, password and roles.
      *
-     * @param username the username
-     * @param password the password
-     * @param roles the roles
+     * @param username the username.
+     * @param password the password.
+     * @param roles    the roles.
      */
     public User(String username, String password, List<Role> roles) {
-        this(username, password);
-        addRoles(roles);
+        this();
+        this.username = username;
+        this.password = password;
+        this.addRoles(roles);
     }
 
     /**
      * Add a role to the user.
      *
-     * @param role the role
-     * @return the {@link User} user
+     * @param role the role.
+     * @return the user.
      */
     public User addRole(Role role) {
         this.roles.add(role);
@@ -80,8 +82,8 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     /**
      * Add a set of roles to the user.
      *
-     * @param roles the roles
-     * @return the {@link User} user
+     * @param roles the roles.
+     * @return the user.
      */
     public User addRoles(List<Role> roles) {
         var validatedRoles = Role.validateRoleSet(roles);

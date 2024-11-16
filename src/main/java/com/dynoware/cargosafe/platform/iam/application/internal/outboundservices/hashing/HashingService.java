@@ -3,23 +3,22 @@ package com.dynoware.cargosafe.platform.iam.application.internal.outboundservice
 /**
  * HashingService
  * <p>
- *     Interface for hashing service. This service is used to encode and match passwords.
+ *     Interface for hashing service.
+ *     This service is used to encode and match passwords.
  * </p>
  */
 public interface HashingService {
     /**
-     * Encode the raw password.
-     *
-     * @param rawPassword the raw password
+     * Encode a raw password.
+     * @param rawPassword the raw password to encode
      * @return the encoded password
      */
     String encode(CharSequence rawPassword);
 
     /**
-     * Matches the raw password with the encoded password.
-     *
-     * @param rawPassword the raw password
-     * @param encodedPassword the encoded password
+     * Match a raw password with an encoded password.
+     * @param rawPassword the raw password to match
+     * @param encodedPassword the encoded password to match
      * @return true if the raw password matches the encoded password, false otherwise
      */
     boolean matches(CharSequence rawPassword, String encodedPassword);

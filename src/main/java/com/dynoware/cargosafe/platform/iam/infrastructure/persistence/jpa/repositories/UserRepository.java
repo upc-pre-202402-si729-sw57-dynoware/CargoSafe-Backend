@@ -9,26 +9,24 @@ import java.util.Optional;
 /**
  * User repository.
  * <p>
- *     This interface is used to interact with the database to perform CRUD operations on the User entity.
- *     It additionally provides a method to find a user by its username and to check if a user with a given username exists.
+ *     This interface is responsible for managing the user entities.
  * </p>
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
     /**
      * Find a user by its username.
      *
-     * @param username the username of the user to find.
-     * @return an optional containing the user if it exists, an empty optional otherwise.
+     * @param username The username.
+     * @return The user.
      */
     Optional<User> findByUsername(String username);
 
     /**
-     * Check if a user with a given username exists.
+     * Check if a user exists by its username.
      *
-     * @param username the username of the user to check.
-     * @return true if a user with the given username exists, false otherwise.
+     * @param username The username.
+     * @return True if the user exists, false otherwise.
      */
     boolean existsByUsername(String username);
 }

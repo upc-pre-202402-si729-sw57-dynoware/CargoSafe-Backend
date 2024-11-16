@@ -14,33 +14,31 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * User command service implementation.
+ * UserCommandServiceImpl
  * <p>
- *     This class implements the {@link UserCommandService} interface.
- *     It is used to handle the sign up and sign in commands.
+ *     Implementation of UserCommandService.
+ *     This class is responsible for handling the SignUpCommand and SignInCommand and persisting the user in the database.
  * </p>
- *
  */
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final HashingService hashingService;
     private final TokenService tokenService;
+    private final RoleRepository roleRepository;
 
     /**
-     * Constructor.
-     *
-     * @param userRepository the {@link UserRepository} user repository.
-     * @param roleRepository the {@link RoleRepository} role repository.
-     * @param hashingService the {@link HashingService} hashing service.
-     * @param tokenService the {@link TokenService} token service.
+     * Constructor
+     * @param userRepository {@link UserRepository} instance
+     * @param hashingService {@link HashingService} instance
+     * @param tokenService {@link TokenService} instance
+     * @param roleRepository {@link RoleRepository} instance
      */
-    public UserCommandServiceImpl(UserRepository userRepository, RoleRepository roleRepository, HashingService hashingService, TokenService tokenService) {
+    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
+        this.roleRepository = roleRepository;
     }
 
     // inherited javadoc
@@ -48,8 +46,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     public Optional<User> handle(SignUpCommand command) {
         if (userRepository.existsByUsername(command.username()))
             throw new RuntimeException("Username already exists");
-        var roles = command.roles().stream().map(role -> roleRepository.findByName(role.getName())
-                .orElseThrow(() -> new RuntimeException("Role name not found"))).toList();
+        var roles = command.roles().stream().map(role -> roleRepository.findByName(role.getName()).orElseThrow(() -> new RuntimeException("Role not found"))).toList();
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         userRepository.save(user);
         return userRepository.findByUsername(command.username());
@@ -58,11 +55,11 @@ public class UserCommandServiceImpl implements UserCommandService {
     // inherited javadoc
     @Override
     public Optional<ImmutablePair<User, String>> handle(SignInCommand command) {
-        var user = userRepository.findByUsername(command.username())
-                .orElseThrow(() -> new RuntimeException("Username not found"));
-        if (!hashingService.matches(command.password(), user.getPassword()))
-            throw new RuntimeException("Invalid password");
-        var token = tokenService.generateToken(user.getUsername());
-        return Optional.of(new ImmutablePair<>(user, token));
+        var user = userRepository.findByUsername(command.username());
+        if (user.isEmpty()) throw new RuntimeException("User not found");
+        var existingUser = user.get();
+        if(!hashingService.matches(command.password(), existingUser.getPassword())) throw new RuntimeException("Invalid password");
+        var token = tokenService.generateToken(existingUser.getUsername());
+        return Optional.of(ImmutablePair.of(existingUser, token));
     }
 }
