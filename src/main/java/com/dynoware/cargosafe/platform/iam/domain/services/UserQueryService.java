@@ -8,6 +8,7 @@ import com.dynoware.cargosafe.platform.iam.domain.model.queries.GetUserByUsernam
 import java.util.List;
 import java.util.Optional;
 
+
 /**
  * User query service.
  * <p>
