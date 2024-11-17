@@ -27,6 +27,8 @@ public class Role {
     @Column(length = 20)
     private Roles name;
 
+
+
     /**
      * Constructor
      * <p>
@@ -34,6 +36,7 @@ public class Role {
      * </p>
      * @param name The name of the role.
      */
+
     public Role(Roles name) {
         this.name = name;
     }
