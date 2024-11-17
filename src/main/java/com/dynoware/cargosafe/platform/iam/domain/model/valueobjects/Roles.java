@@ -7,7 +7,8 @@ package com.dynoware.cargosafe.platform.iam.domain.model.valueobjects;
  * </p>
  */
 public enum Roles {
-    ROLE_ENTREPRENEUR,
+    ROLE_USER,
     ROLE_ADMIN,
-    ROLE_COMPANY
+    ROLE_COMPANY,
+    ROLE_ENTREPRENEUR
 }
