@@ -2,36 +2,35 @@ package com.dynoware.cargosafe.platform.iam.domain.model.entities;
 
 import com.dynoware.cargosafe.platform.iam.domain.model.valueobjects.Roles;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Role
  * <p>
- *  Represents a role that can be assigned to a user.
+ *     Represents a role that can be assigned to a user.
  * </p>
  */
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Role {
-
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
-
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, unique = true)
+    @Column(length = 20)
     private Roles name;
 
     /**
      * Constructor
      * <p>
-     *  Creates a new role with the given name.
+     *     Creates a new role with the given name.
      * </p>
      * @param name The name of the role.
      */
@@ -40,20 +39,18 @@ public class Role {
     }
 
     /**
-     * getStringName
+     * Get Default Role
      * <p>
-     *  Returns the name of the role as a string.
+     *     Returns the default role.
      * </p>
-     * @return The name of the role as a string.
+     * @return The default role.
      */
-    public String getStringName() {
-        return name.name();
-    }
+    public static Role getDefaultRole() { return new Role(Roles.ROLE_USER); }
 
     /**
-     * toRoleFromName
+     * To Role From Name
      * <p>
-     *  Converts a string to a role.
+     *     Converts a role name to a role.
      * </p>
      * @param name The name of the role.
      * @return The role.
@@ -63,28 +60,25 @@ public class Role {
     }
 
     /**
-     * getDefaultRole
+     * Validate Role Set
      * <p>
-     *  Returns the default role.
+     *     Validates a set of roles. If the set is null or empty, the default role is returned.
      * </p>
-     * @return The default role (User Role).
-     */
-    public static Role getDefaultRole() {
-        return new Role(Roles.ROLE_USER);
-    }
-
-    /**
-     * validateRoleSet
-     * <p>
-     *  Validates a set of roles. If the set is null or empty, the default role is returned.
-     * </p>
-     * @param roles The set of roles to validate.
+     * @param roles The set of roles.
      * @return The set of roles.
      */
     public static List<Role> validateRoleSet(List<Role> roles) {
-        if (Objects.isNull(roles) || roles.isEmpty()) {
-            return List.of(getDefaultRole());
-        }
-        return roles;
+        return roles == null || roles.isEmpty() ? List.of(getDefaultRole()) : roles;
+    }
+
+    /**
+     * Get String Name
+     * <p>
+     *     Returns the name of the role as a string.
+     * </p>
+     * @return The name of the role as a string.
+     */
+    public String getStringName() {
+        return name.name();
     }
 }

@@ -11,23 +11,23 @@ import java.util.Optional;
  * User command service.
  * <p>
  *     This service is responsible for handling user commands.
- *     It provides methods to handle sign-up and sign-in commands.
+ *     It provides methods to handle sign up and sign in commands.
  * </p>
  */
 public interface UserCommandService {
     /**
      * Handle sign up command.
      *
-     * @param command the command
-     * @return an optional of user if the sign-up was successful
+     * @param command The {@link SignUpCommand} command, containing the user data.
+     * @return The user created.
      */
     Optional<User> handle(SignUpCommand command);
 
     /**
      * Handle sign in command.
      *
-     * @param command the command
-     * @return an optional of user and token if the sign-in was successful
+     * @param command The {@link SignInCommand} command, containing the user data.
+     * @return The user and the token.
      */
     Optional<ImmutablePair<User, String>> handle(SignInCommand command);
 }

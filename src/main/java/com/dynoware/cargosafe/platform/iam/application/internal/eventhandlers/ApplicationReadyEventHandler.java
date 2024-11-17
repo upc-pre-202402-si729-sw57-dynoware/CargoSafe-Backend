@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 
 /**
- * Event handler for the ApplicationReadyEvent. This event is triggered when the application is ready to serve requests.
- * This event handler is responsible for verifying if roles seeding is needed and if so, it will seed the roles.
+ * Event handler for the ApplicationReadyEvent.
+ * <p>
+ *  This event is triggered when the application is ready to serve requests.
+ *  It is used to seed the roles in the database.
+ * </p>
  */
 @Service
 public class ApplicationReadyEventHandler {
@@ -20,19 +23,22 @@ public class ApplicationReadyEventHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationReadyEventHandler.class);
 
     /**
-     * Constructor for the ApplicationReadyEventHandler.
+     * Constructor.
      *
-     * @param roleCommandService the {@link RoleCommandService} service instance.
+     * @param roleCommandService the {@link RoleCommandService} role command service.
      */
     public ApplicationReadyEventHandler(RoleCommandService roleCommandService) {
         this.roleCommandService = roleCommandService;
     }
 
     /**
-     * Event listener for the ApplicationReadyEvent. This event is triggered when the application is ready to serve requests.
-     * This event handler is responsible for verifying if roles seeding is needed and if so, it will seed the roles.
+     * Event listener for the ApplicationReadyEvent.
+     * <p>
+     *     This method is triggered when the application is ready to serve requests.
+     *     It is used to seed the roles in the database.
+     * </p>
      *
-     * @param event the {@link ApplicationReadyEvent} event instance.
+     * @param event the {@link ApplicationReadyEvent} event.
      */
     @EventListener
     public void on(ApplicationReadyEvent event) {
@@ -40,11 +46,11 @@ public class ApplicationReadyEventHandler {
         LOGGER.info("Starting to verify if roles seeding is needed for {} at {}", applicationName, currentTimestamp());
         var seedRolesCommand = new SeedRolesCommand();
         roleCommandService.handle(seedRolesCommand);
-        LOGGER.info("Role seeding verification finished for {} at {}", applicationName, currentTimestamp());
+        LOGGER.info("Roles seeding verification finished for {} at {}", applicationName, currentTimestamp());
     }
 
     /**
-     * Method to get the current timestamp.
+     * Get the current timestamp.
      *
      * @return the current timestamp.
      */

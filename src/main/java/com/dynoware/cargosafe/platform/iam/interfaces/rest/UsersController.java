@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Users", description = "Available User Endpoints")
-public class UsersController {
+public class    UsersController {
     private final UserQueryService userQueryService;
 
     /**

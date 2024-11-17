@@ -9,12 +9,8 @@ import com.dynoware.cargosafe.platform.iam.domain.model.commands.SeedRolesComman
  * </p>
  */
 public interface RoleCommandService {
-
     /**
      * Handle seed roles command.
-     * <p>
-     *     Seed roles command is used to seed roles in the system.
-     * </p>
      *
      * @param command the {@link SeedRolesCommand} command
      */
