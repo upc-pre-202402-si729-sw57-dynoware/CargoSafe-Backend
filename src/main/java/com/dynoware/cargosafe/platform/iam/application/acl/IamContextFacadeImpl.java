@@ -7,7 +7,6 @@ import com.dynoware.cargosafe.platform.iam.domain.model.queries.GetUserByUsernam
 import com.dynoware.cargosafe.platform.iam.domain.services.UserCommandService;
 import com.dynoware.cargosafe.platform.iam.domain.services.UserQueryService;
 import com.dynoware.cargosafe.platform.iam.interfaces.acl.IamContextFacade;
-import org.springframework.stereotype.Service;
 import io.jsonwebtoken.lang.Strings;
 import org.springframework.stereotype.Service;
 

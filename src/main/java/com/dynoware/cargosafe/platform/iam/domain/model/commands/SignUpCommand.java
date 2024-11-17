@@ -4,8 +4,6 @@ import com.dynoware.cargosafe.platform.iam.domain.model.entities.Role;
 
 import java.util.List;
 
-import java.util.List;
-
 /**
  * Command to sign up a new user.
  * <p>
