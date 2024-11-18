@@ -2,6 +2,7 @@ package com.dynoware.cargosafe.platform.profiles.application.internal.commandser
 
 import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.UpdateProfileCommand;
 import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.EmailAddress;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileCommandService;
 import com.dynoware.cargosafe.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
@@ -16,16 +17,10 @@ import java.util.Optional;
 public class ProfileCommandServiceImpl implements ProfileCommandService {
     private final ProfileRepository profileRepository;
 
-    /**
-     * Constructor
-     *
-     * @param profileRepository The {@link ProfileRepository} instance
-     */
     public ProfileCommandServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-    // inherited javadoc
     @Override
     public Optional<Profile> handle(CreateProfileCommand command) {
         var emailAddress = new EmailAddress(command.email());
@@ -35,5 +30,35 @@ public class ProfileCommandServiceImpl implements ProfileCommandService {
         var profile = new Profile(command);
         profileRepository.save(profile);
         return Optional.of(profile);
+    }
+
+    @Override
+    public Optional<Profile> handle(UpdateProfileCommand command) {
+        var profileOptional = profileRepository.findById(command.profileId());
+        if (profileOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        var profile = profileOptional.get();
+        profile.updateProfile(
+                command.firstName(),
+                command.lastName(),
+                command.email(),
+                command.street(),
+                command.number(),
+                command.city(),
+                command.postalCode(),
+                command.country()
+        );
+        profileRepository.save(profile);
+        return Optional.of(profile);
+    }
+
+    @Override
+    public boolean delete(Long profileId) {
+        if (profileRepository.existsById(profileId)) {
+            profileRepository.deleteById(profileId);
+            return true;
+        }
+        return false;
     }
 }

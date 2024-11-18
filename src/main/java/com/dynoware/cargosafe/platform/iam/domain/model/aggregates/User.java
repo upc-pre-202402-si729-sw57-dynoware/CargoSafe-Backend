@@ -1,6 +1,7 @@
 package com.dynoware.cargosafe.platform.iam.domain.model.aggregates;
 
 import com.dynoware.cargosafe.platform.iam.domain.model.entities.Role;
+import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
     /**
      * Default constructor.
      */
@@ -41,17 +45,19 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         this.roles = new HashSet<>();
     }
 
+
+
     /**
      * Constructor with username and password.
      *
      * @param username the username.
      * @param password the password.
      */
-    public User(String username, String password) {
+    public User(String username, String password, Profile profile) {
         this();
         this.username = username;
         this.password = password;
-        this.roles = new HashSet<>();
+        this.profile = profile;
     }
 
     /**
@@ -89,5 +95,12 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         var validatedRoles = Role.validateRoleSet(roles);
         this.roles.addAll(validatedRoles);
         return this;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

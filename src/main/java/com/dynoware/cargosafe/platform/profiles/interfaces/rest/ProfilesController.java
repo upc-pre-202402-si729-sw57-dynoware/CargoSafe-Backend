@@ -1,13 +1,17 @@
 package com.dynoware.cargosafe.platform.profiles.interfaces.rest;
 
+import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByIdQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileCommandService;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileQueryService;
 import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.CreateProfileResource;
 import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.ProfileResource;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.UpdateProfileResource;
 import com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
 import com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
+import com.dynoware.cargosafe.platform.profiles.interfaces.rest.transform.UpdateProfileCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ProfilesController
@@ -29,40 +34,25 @@ public class ProfilesController {
     private final ProfileCommandService profileCommandService;
     private final ProfileQueryService profileQueryService;
 
-    /**
-     * Constructor
-     * @param profileCommandService The {@link ProfileCommandService} instance
-     * @param profileQueryService The {@link ProfileQueryService} instance
-     */
     public ProfilesController(ProfileCommandService profileCommandService, ProfileQueryService profileQueryService) {
         this.profileCommandService = profileCommandService;
         this.profileQueryService = profileQueryService;
     }
 
-    /**
-     * Create a new profile
-     * @param resource The {@link CreateProfileResource} instance
-     * @return A {@link ProfileResource} resource for the created profile, or a bad request response if the profile could not be created.
-     */
-    @PostMapping
-    @Operation(summary = "Create a new profile")
+    @PostMapping("/{userId}")
+    @Operation(summary = "Create a new profile for a user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Profile created"),
             @ApiResponse(responseCode = "400", description = "Bad request")})
-    public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
-        var createProfileCommand = CreateProfileCommandFromResourceAssembler.toCommandFromResource(resource);
-        var profile = profileCommandService.handle(createProfileCommand);
+    public ResponseEntity<ProfileResource> createProfile(@PathVariable Long userId, @RequestBody CreateProfileResource resource) {
+        CreateProfileCommand createProfileCommand = CreateProfileCommandFromResourceAssembler.toCommandFromResource(resource);
+        Optional<Profile> profile = profileCommandService.handle(createProfileCommand);
         if (profile.isEmpty()) return ResponseEntity.badRequest().build();
-        var createdProfile = profile.get();
-        var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(createdProfile);
+        Profile createdProfile = profile.get();
+        ProfileResource profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(createdProfile);
         return new ResponseEntity<>(profileResource, HttpStatus.CREATED);
     }
 
-    /**
-     * Get a profile by ID
-     * @param profileId The profile ID
-     * @return A {@link ProfileResource} resource for the profile, or a not found response if the profile could not be found.
-     */
     @GetMapping("/{profileId}")
     @Operation(summary = "Get a profile by ID")
     @ApiResponses(value = {
@@ -77,10 +67,6 @@ public class ProfilesController {
         return ResponseEntity.ok(profileResource);
     }
 
-    /**
-     * Get all profiles
-     * @return A list of {@link ProfileResource} resources for all profiles, or a not found response if no profiles are found.
-     */
     @GetMapping
     @Operation(summary = "Get all profiles")
     @ApiResponses(value = {
@@ -95,4 +81,28 @@ public class ProfilesController {
         return ResponseEntity.ok(profileResources);
     }
 
+    @PutMapping("/{profileId}")
+    @Operation(summary = "Update a profile")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Profile updated"),
+            @ApiResponse(responseCode = "404", description = "Profile not found")})
+    public ResponseEntity<ProfileResource> updateProfile(@PathVariable Long profileId, @RequestBody UpdateProfileResource resource) {
+        var updateProfileCommand = UpdateProfileCommandFromResourceAssembler.toCommandFromResource(profileId, resource);
+        var profile = profileCommandService.handle(updateProfileCommand);
+        if (profile.isEmpty()) return ResponseEntity.notFound().build();
+        var updatedProfile = profile.get();
+        var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(updatedProfile);
+        return ResponseEntity.ok(profileResource);
+    }
+
+    @DeleteMapping("/{profileId}")
+    @Operation(summary = "Delete a profile")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Profile deleted"),
+            @ApiResponse(responseCode = "404", description = "Profile not found")})
+    public ResponseEntity<Void> deleteProfile(@PathVariable Long profileId) {
+        var profileDeleted = profileCommandService.delete(profileId);
+        if (!profileDeleted) return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
+    }
 }
