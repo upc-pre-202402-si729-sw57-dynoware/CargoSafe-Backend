@@ -18,9 +18,11 @@ public class AuthenticatedUserResourceFromEntityAssembler {
      * @return The AuthenticatedUserResource.
      */
     public static AuthenticatedUserResource toResourceFromEntity(User entity, String token) {
+        var roles = RoleStringListFromEntityListAssembler.toResourceListFromEntitySet(entity.getRoles());
         return new AuthenticatedUserResource(
                 entity.getId(),
                 entity.getUsername(),
-                token);
+                token,
+                roles);
     }
 }

@@ -2,6 +2,7 @@ package com.dynoware.cargosafe.platform.profiles.domain.services;
 
 import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
+import com.dynoware.cargosafe.platform.profiles.domain.model.commands.UpdateProfileCommand;
 
 import java.util.Optional;
 
@@ -17,4 +18,14 @@ public interface ProfileCommandService {
      * @throws IllegalArgumentException if the email address already exists
      */
     Optional<Profile> handle(CreateProfileCommand command);
+
+    Optional<Profile> handle(UpdateProfileCommand command);
+
+    /**
+     * Delete a profile by ID
+     *
+     * @param profileId The profile ID
+     * @return True if the profile was deleted, otherwise false
+     */
+    boolean delete(Long profileId);
 }

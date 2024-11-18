@@ -20,7 +20,8 @@ public class RoleListFromStringAssembler {
      * @return The list of Role entities.
      */
     public static List<Role> toRoleListFromStringList(List<String> resourceList) {
-        return Objects.nonNull(resourceList) ? resourceList.stream()
-                .map(Role::toRoleFromName).toList() : new ArrayList<Role>();
+        return resourceList.stream()
+                .map(Role::toRoleFromName)
+                .toList();
     }
 }
