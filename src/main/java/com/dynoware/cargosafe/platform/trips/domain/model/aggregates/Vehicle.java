@@ -40,4 +40,8 @@ public class Vehicle extends AuditableAbstractAggregateRoot<Vehicle> {
         this.photo_url = command.photo_url();
         return this;
     }
+
+    public Vehicle(Long id) {
+        this.id = id;
+    }
 }

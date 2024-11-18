@@ -1,6 +1,8 @@
 package com.dynoware.cargosafe.platform.trips.domain.model.aggregates;
 import com.dynoware.cargosafe.platform.iam.domain.model.aggregates.User;
 import com.dynoware.cargosafe.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.dynoware.cargosafe.platform.trips.domain.model.commands.CreateTripCommand;
+import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateTripCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -90,4 +92,56 @@ public class Trip extends AuditableAbstractAggregateRoot<Trip> {
 
     @Column(nullable = false)
     private String pickupAddress;
+
+    public Trip(CreateTripCommand command) {
+        this.name = command.name();
+        this.type = command.type();
+        this.weight = command.weight();
+        this.unloadDirection = command.unloadDirection();
+        this.unloadLocation = command.unloadLocation();
+        this.unloadDate = command.unloadDate();
+        this.expense = new Expense(command.expenseId());
+        this.alert = new Alert(command.alertId());
+        this.ongoingTrip = new OnGoingTrip(command.ongoingTripId());
+        this.vehicle = new Vehicle(command.vehicleId());
+        this.driver = new Driver(command.driverId());
+        this.user = new User(command.userId());
+        this.destination = command.destination();
+        this.department = command.department();
+        this.district = command.district();
+        this.country = command.country();
+        this.numberPackages = command.numberPackages();
+        this.holderName = command.holderName();
+        this.destinationDate = command.destinationDate();
+        this.totalAmount = command.totalAmount();
+        this.destinationAddress = command.destinationAddress();
+        this.loadDetail = command.loadDetail();
+        this.pickupAddress = command.pickupAddress();
+    }
+
+    public void updateTrip(UpdateTripCommand command) {
+        this.name = command.name();
+        this.type = command.type();
+        this.weight = command.weight();
+        this.unloadDirection = command.unloadDirection();
+        this.unloadLocation = command.unloadLocation();
+        this.unloadDate = command.unloadDate();
+        this.expense = new Expense(command.expenseId());
+        this.alert = new Alert(command.alertId());
+        this.ongoingTrip = new OnGoingTrip(command.ongoingTripId());
+        this.vehicle = new Vehicle(command.vehicleId());
+        this.driver = new Driver(command.driverId());
+        this.user = new User(command.userId());
+        this.destination = command.destination();
+        this.department = command.department();
+        this.district = command.district();
+        this.country = command.country();
+        this.numberPackages = command.numberPackages();
+        this.holderName = command.holderName();
+        this.destinationDate = command.destinationDate();
+        this.totalAmount = command.totalAmount();
+        this.destinationAddress = command.destinationAddress();
+        this.loadDetail = command.loadDetail();
+        this.pickupAddress = command.pickupAddress();
+    }
 }

@@ -46,4 +46,8 @@ public class Expense extends AuditableAbstractAggregateRoot<Expense> {
         this.tolls_description = command.tolls_description();
 
     }
+
+    public Expense(Long id) {
+        this.id = id;
+    }
 }

@@ -57,4 +57,8 @@ public class Driver {
         return this;
     }
 
+    public Driver(Long id) {
+        this.id = id;
+    }
+
 }

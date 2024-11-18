@@ -54,4 +54,8 @@ public class OnGoingTrip {
         this.distance = distance;
         return  this;
     }
+
+    public OnGoingTrip(Long id) {
+        this.id = id;
+    }
 }
