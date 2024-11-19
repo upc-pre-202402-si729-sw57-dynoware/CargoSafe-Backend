@@ -4,6 +4,7 @@ import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByUsernameQuery;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,4 +36,6 @@ public interface ProfileQueryService {
      * @return A list of {@link Profile} instances
      */
     List<Profile> handle(GetAllProfilesQuery query);
+
+    Optional<Profile> handle(GetProfileByUsernameQuery query);
 }

@@ -27,4 +27,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
      * @return True if the email address exists, otherwise false
      */
     boolean existsByEmailAddress(EmailAddress emailAddress);
+
+    Optional<Profile> findByUserUsername(String username);
+
 }
