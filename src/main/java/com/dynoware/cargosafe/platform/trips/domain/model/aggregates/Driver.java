@@ -26,19 +26,24 @@ public class Driver {
     @Column(name = "contact_num", nullable = false)
     private String contactNum;
 
+    @Column(name = "url_photo",nullable = false)
+    private String urlPhoto;
+
     public Driver(){
         this.name = Strings.EMPTY;
         this.dni = Strings.EMPTY;
         this.license = Strings.EMPTY;
         this.contactNum = Strings.EMPTY;
+        this.urlPhoto   = Strings.EMPTY;
     }
 
-    public Driver(String name, String dni, String license, String contactNum) {
+    public Driver(String name, String dni, String license, String contactNum, String urlPhoto) {
         this();
         this.name = name;
         this.dni = dni;
         this.license = license;
         this.contactNum = contactNum;
+        this.urlPhoto = urlPhoto;
     }
 
     public Driver(CreateDriverCommand command) {
@@ -47,13 +52,15 @@ public class Driver {
         this.dni = command.dni();
         this.license = command.license();
         this.contactNum = command.contactNum();
+        this.urlPhoto = command.urlPhoto();
     }
 
-    public Driver updateInformation(String name,String dni, String license, String contactNum) {
+    public Driver updateInformation(String name,String dni, String license, String contactNum, String urlPhoto) {
         this.name = name;
         this.dni = dni;
         this.license = license;
         this.contactNum = contactNum;
+        this.urlPhoto = urlPhoto;
         return this;
     }
 

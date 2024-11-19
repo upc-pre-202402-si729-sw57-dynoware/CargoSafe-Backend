@@ -28,13 +28,13 @@ public class ProfileQueryServiceImpl implements ProfileQueryService {
         this.profileRepository = profileRepository;
     }
 
-    // inherited javadoc
+
     @Override
     public Optional<Profile> handle(GetProfileByIdQuery query) {
         return profileRepository.findById(query.profileId());
     }
 
-    // inherited javadoc
+
     @Override
     public Optional<Profile> handle(GetProfileByEmailQuery query) {
         return profileRepository.findByEmailAddress(query.emailAddress());
@@ -42,7 +42,7 @@ public class ProfileQueryServiceImpl implements ProfileQueryService {
 
 
 
-    // inherited javadoc
+
     @Override
     public List<Profile> handle(GetAllProfilesQuery query) {
         return profileRepository.findAll();

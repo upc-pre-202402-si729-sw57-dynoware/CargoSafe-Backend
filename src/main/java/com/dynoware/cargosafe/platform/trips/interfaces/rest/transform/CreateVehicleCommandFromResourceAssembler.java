@@ -8,9 +8,9 @@ public class CreateVehicleCommandFromResourceAssembler {
         return new CreateVehicleCommand(
                 resource.model(),
                 resource.plate(),
-                resource.max_load(),
+                resource.maxLoad(),
                 resource.volume(),
-                resource.photo_url()
+                resource.photoUrl()
         );
     }
 }

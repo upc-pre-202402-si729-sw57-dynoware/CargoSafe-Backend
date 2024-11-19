@@ -1,14 +1,14 @@
 package com.dynoware.cargosafe.platform.trips.domain.model.commands;
 
-public record CreateExpenseCommand(int fuel_amount, String fuel_description, int viatics_amount, String viatics_description, int tolls_amount, String tolls_description) {
+public record CreateExpenseCommand(int fuelAmount, String fuelDescription, int viaticsAmount, String viaticsDescription, int tollsAmount, String tollsDescription) {
     public CreateExpenseCommand {
-        if (fuel_amount < 0 || viatics_amount < 0 || tolls_amount < 0)
+        if (fuelAmount < 0 || viaticsAmount < 0 || tollsAmount < 0)
             throw new IllegalArgumentException("amounts cannot be negative");
-        if (fuel_description == null || fuel_description.isBlank())
+        if (fuelDescription == null || fuelDescription.isBlank())
             throw new IllegalArgumentException("fuel_description cannot be null or empty");
-        if (viatics_description == null || viatics_description.isBlank())
+        if (viaticsDescription == null || viaticsDescription.isBlank())
             throw new IllegalArgumentException("viatics_description cannot be null or empty");
-        if (tolls_description == null || tolls_description.isBlank())
+        if (tollsDescription == null || tollsDescription.isBlank())
             throw new IllegalArgumentException("tolls_description cannot be null or empty");
     }
 
