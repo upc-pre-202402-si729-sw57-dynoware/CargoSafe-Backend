@@ -1,6 +1,7 @@
 package com.dynoware.cargosafe.platform.requestService.domain.model.commands;
 
-public record CreateRequestServiceCommand(
+public record UpdateRequestServiceCommand(
+        Long id,
         String unloadDirection,
         String type,
         int numberPackages,

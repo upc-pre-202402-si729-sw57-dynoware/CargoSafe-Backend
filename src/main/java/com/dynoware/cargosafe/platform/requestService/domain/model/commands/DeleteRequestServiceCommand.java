@@ -1,4 +1,4 @@
 package com.dynoware.cargosafe.platform.requestService.domain.model.commands;
 
-public record DeleteRequestServiceCommand() {
+public record DeleteRequestServiceCommand(Long id) {
 }

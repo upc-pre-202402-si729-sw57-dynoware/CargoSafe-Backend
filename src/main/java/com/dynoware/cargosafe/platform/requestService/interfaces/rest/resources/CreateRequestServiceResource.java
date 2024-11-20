@@ -1,6 +1,6 @@
-package com.dynoware.cargosafe.platform.requestService.domain.model.commands;
+package com.dynoware.cargosafe.platform.requestService.interfaces.rest.resources;
 
-public record CreateRequestServiceCommand(
+public record CreateRequestServiceResource(
         String unloadDirection,
         String type,
         int numberPackages,
