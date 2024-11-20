@@ -9,6 +9,7 @@ import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetAl
 import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetRequestServiceByIdQuery;
 import com.dynoware.cargosafe.platform.requestService.interfaces.rest.resources.CreateRequestServiceResource;
 import com.dynoware.cargosafe.platform.requestService.interfaces.rest.resources.RequestServiceResource;
+import com.dynoware.cargosafe.platform.requestService.interfaces.rest.resources.UpdateRequestServiceStatusResource;
 import com.dynoware.cargosafe.platform.requestService.interfaces.rest.transform.CreateRequestServiceCommandFromResourceAssembler;
 import com.dynoware.cargosafe.platform.requestService.interfaces.rest.transform.RequestServiceResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -64,6 +65,16 @@ public class RequestServiceController {
         );
         var updatedRequestService = commandService.handle(command);
         var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(updatedRequestService);
+        return ResponseEntity.ok(requestServiceResource);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<RequestServiceResource> updateRequestServiceStatus(@PathVariable Long id, @RequestBody UpdateRequestServiceStatusResource resource) {
+        var requestService = queryService.handle(new GetRequestServiceByIdQuery(id))
+                .orElseThrow(() -> new IllegalArgumentException("RequestService not found"));
+
+        var status = commandService.updateStatus(requestService, resource.statusId());
+        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(status);
         return ResponseEntity.ok(requestServiceResource);
     }
 

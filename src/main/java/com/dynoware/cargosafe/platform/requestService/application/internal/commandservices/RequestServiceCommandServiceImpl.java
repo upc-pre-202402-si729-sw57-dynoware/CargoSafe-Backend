@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RequestServiceCommandServiceImpl  implements RequestServiceCommandService {
+public class RequestServiceCommandServiceImpl implements RequestServiceCommandService {
     private final RequestServiceRepository repository;
     private final StatusRepository statusRepository;
 
@@ -53,7 +53,6 @@ public class RequestServiceCommandServiceImpl  implements RequestServiceCommandS
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
         requestService.setStatus(status);
 
-
         RequestServiceStatus requestServiceStatus = new RequestServiceStatus();
         requestServiceStatus.setRequestService(requestService);
         requestServiceStatus.setStatus(status);
@@ -78,5 +77,13 @@ public class RequestServiceCommandServiceImpl  implements RequestServiceCommandS
     @Override
     public void handle(DeleteRequestServiceCommand command) {
         repository.deleteById(command.id());
+    }
+
+    public RequestService updateStatus(RequestService requestService, Long statusId) {
+        Status status = statusRepository.findById(statusId)
+                .orElseThrow(() -> new IllegalArgumentException("Status not found"));
+        requestService.setStatus(status);
+        repository.save(requestService);
+        return requestService;
     }
 }
