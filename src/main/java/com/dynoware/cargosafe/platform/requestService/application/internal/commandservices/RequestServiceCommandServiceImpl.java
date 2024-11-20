@@ -49,7 +49,8 @@ public class RequestServiceCommandServiceImpl implements RequestServiceCommandSe
         requestService.setLoadDetail(command.loadDetail());
         requestService.setWeight(command.weight());
 
-        Status status = statusRepository.findById(command.statusId())
+        Long statusId = command.statusId() != null ? command.statusId() : 3L;
+        Status status = statusRepository.findById(statusId)
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
         requestService.setStatus(status);
 
@@ -83,6 +84,12 @@ public class RequestServiceCommandServiceImpl implements RequestServiceCommandSe
         Status status = statusRepository.findById(statusId)
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
         requestService.setStatus(status);
+
+
+        for (RequestServiceStatus requestServiceStatus : requestService.getStatuses()) {
+            requestServiceStatus.setStatus(status);
+        }
+
         repository.save(requestService);
         return requestService;
     }
