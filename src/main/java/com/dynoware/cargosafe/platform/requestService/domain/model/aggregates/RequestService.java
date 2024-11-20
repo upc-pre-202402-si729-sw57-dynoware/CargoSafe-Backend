@@ -33,7 +33,7 @@ public class RequestService extends AuditableAbstractAggregateRoot<RequestServic
     private double destinationLat;
     private double destinationLng;
     private String loadDetail;
-    private String weight;
+    private double weight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estatus_id")

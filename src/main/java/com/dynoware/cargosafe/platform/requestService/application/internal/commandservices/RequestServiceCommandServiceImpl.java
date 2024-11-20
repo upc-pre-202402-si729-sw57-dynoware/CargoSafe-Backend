@@ -8,9 +8,15 @@ import com.dynoware.cargosafe.platform.requestService.domain.model.entities.Requ
 import com.dynoware.cargosafe.platform.requestService.domain.model.entities.Status;
 import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetAllRequestServiceQuery;
 import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetRequestServiceByIdQuery;
+import com.dynoware.cargosafe.platform.requestService.domain.model.valueobjects.StatusName;
 import com.dynoware.cargosafe.platform.requestService.domain.services.RequestServiceCommandService;
 import com.dynoware.cargosafe.platform.requestService.infrastructure.persistence.jpa.repositories.RequestServiceRepository;
 import com.dynoware.cargosafe.platform.requestService.infrastructure.persistence.jpa.repositories.StatusRepository;
+import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.*;
+import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.DriverRepository;
+import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.repositories.TripRepository;
+import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.repositories.VehicleRepository;
+import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.VehicleResource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +26,17 @@ import java.util.Optional;
 public class RequestServiceCommandServiceImpl implements RequestServiceCommandService {
     private final RequestServiceRepository repository;
     private final StatusRepository statusRepository;
+    private final TripRepository tripRepository;
+    private final DriverRepository driverRepository;
+    private final VehicleRepository  vehicleRepository;
 
-    public RequestServiceCommandServiceImpl(RequestServiceRepository repository, StatusRepository statusRepository) {
+
+    public RequestServiceCommandServiceImpl(RequestServiceRepository repository, StatusRepository statusRepository, TripRepository tripRepository,DriverRepository driverRepository,VehicleRepository vehicleRepository) {
         this.repository = repository;
         this.statusRepository = statusRepository;
+        this.tripRepository = tripRepository;
+        this.driverRepository = driverRepository;
+        this.vehicleRepository  = vehicleRepository;
     }
 
     @Override
@@ -85,12 +98,54 @@ public class RequestServiceCommandServiceImpl implements RequestServiceCommandSe
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
         requestService.setStatus(status);
 
-
         for (RequestServiceStatus requestServiceStatus : requestService.getStatuses()) {
             requestServiceStatus.setStatus(status);
         }
 
         repository.save(requestService);
+
+        if (status.getName() == StatusName.Accepted) {
+            Trip trip = new Trip();
+            trip.setName("Accepted");
+            trip.setType(requestService.getType());
+            trip.setWeight(requestService.getWeight());
+            trip.setUnloadDirection(requestService.getUnloadDirection());
+            trip.setUnloadLocation(requestService.getUnloadLocation());
+            trip.setUnloadDate(requestService.getUnloadDate());
+            trip.setNumberPackages(requestService.getNumberPackages());
+            trip.setHolderName(requestService.getHolderName());
+            trip.setDestinationAddress(requestService.getDestinationAddress());
+            trip.setLoadDetail(requestService.getLoadDetail());
+            trip.setPickupAddress(requestService.getPickupAddress());
+            trip.setDestinationDate("2024-11-21");
+            trip.setTotalAmount(0.0);
+
+
+            trip.setVehicle(null);
+            trip.setDriver(null);
+
+            tripRepository.save(trip);
+        }
+
+        return requestService;
+    }
+
+    public RequestService assignVehicle(RequestService requestService, Long vehicleId) {
+        Optional<Vehicle> vehicle = vehicleRepository.findById(vehicleId);
+        if (vehicle.isEmpty()) {
+            throw new IllegalArgumentException("Vehículo no encontrado con id: " + vehicleId);
+        }
+
+        repository.save(requestService);
+        return requestService;
+    }
+
+    public RequestService assignDriver(RequestService requestService, Long driverId) {
+        Optional<Driver> driver = driverRepository.findById(driverId);
+        if (driver.isEmpty()) {
+            throw new IllegalArgumentException("Conductor no encontrado con id: " + driverId);
+        }
+
         return requestService;
     }
 }

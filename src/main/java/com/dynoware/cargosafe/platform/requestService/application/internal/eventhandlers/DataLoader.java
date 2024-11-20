@@ -6,6 +6,8 @@ import com.dynoware.cargosafe.platform.requestService.domain.model.valueobjects.
 import com.dynoware.cargosafe.platform.requestService.infrastructure.persistence.jpa.repositories.StatusRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+
 @Component
 public class DataLoader implements CommandLineRunner {
     private final StatusRepository statusRepository;
@@ -17,9 +19,10 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         for (StatusName name : StatusName.values()) {
-            Status status = new Status();
-            status.setName(name);
-            statusRepository.save(status);
+            if (statusRepository.findByName(name).isEmpty()) {
+                Status status = new Status(name);
+                statusRepository.savePredefined(status);
+            }
         }
     }
 }

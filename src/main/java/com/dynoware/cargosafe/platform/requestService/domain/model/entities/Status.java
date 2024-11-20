@@ -15,4 +15,10 @@ public class Status {
 
     @Enumerated(EnumType.STRING)
     private StatusName name;
+
+    protected Status() {}
+
+    public Status(StatusName name) {
+        this.name = name;
+    }
 }

@@ -1,5 +1,9 @@
 package com.dynoware.cargosafe.platform.trips.interfaces.rest.resources;
 
+import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Driver;
+import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Vehicle;
+import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.DriverRepository;
+
 public record CreateTripResource(
         String name,
         String type,
@@ -7,16 +11,8 @@ public record CreateTripResource(
         String unloadDirection,
         String unloadLocation,
         String unloadDate,
-        Long expenseId,
-        Long alertId,
-        Long ongoingTripId,
-        Long vehicleId,
-        Long driverId,
-        Long userId,
-        String destination,
-        String department,
-        String district,
-        String country,
+        Vehicle vehicleId,
+        Driver driverId,
         int numberPackages,
         String holderName,
         String destinationDate,

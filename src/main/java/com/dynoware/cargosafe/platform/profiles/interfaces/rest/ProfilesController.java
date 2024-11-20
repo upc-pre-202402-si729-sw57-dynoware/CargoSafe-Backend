@@ -31,7 +31,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/api/v1/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Profiles", description = "Available Profile Endpoints")
-public class ProfilesController {
+public class    ProfilesController {
     private final ProfileCommandService profileCommandService;
     private final ProfileQueryService profileQueryService;
 

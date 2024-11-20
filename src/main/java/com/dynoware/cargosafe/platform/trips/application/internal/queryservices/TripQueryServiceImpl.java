@@ -2,7 +2,6 @@ package com.dynoware.cargosafe.platform.trips.application.internal.queryservices
 
 import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Trip;
 import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetAllTripsByIdQuery;
-import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetAllTripsByUserIdQuery;
 import com.dynoware.cargosafe.platform.trips.domain.model.queries.GetAllTripsQuery;
 import com.dynoware.cargosafe.platform.trips.domain.services.TripQueryService;
 import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.repositories.TripRepository;
@@ -22,11 +21,6 @@ public class TripQueryServiceImpl implements TripQueryService {
     @Override
     public Optional<Trip> handle(GetAllTripsByIdQuery query) {
         return tripRepository.findById(query.Id());
-    }
-
-    @Override
-    public List<Trip> handle(GetAllTripsByUserIdQuery query) {
-        return tripRepository.findByUserId(query.userId());
     }
 
     @Override

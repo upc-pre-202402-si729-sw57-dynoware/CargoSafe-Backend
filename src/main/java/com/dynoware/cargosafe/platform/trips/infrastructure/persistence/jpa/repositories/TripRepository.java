@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
-    List<Trip> findByUserId(Long userId);
-    boolean existsById(Long id);
-    List<Trip> findAll();
+
+    // List<Trip> findByUserId(Long userId);
 }

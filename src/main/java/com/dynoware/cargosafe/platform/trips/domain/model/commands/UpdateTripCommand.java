@@ -1,6 +1,9 @@
 package com.dynoware.cargosafe.platform.trips.domain.model.commands;
 
 
+import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Driver;
+import com.dynoware.cargosafe.platform.trips.domain.model.aggregates.Vehicle;
+
 public record UpdateTripCommand(
         Long id,
         String name,
@@ -9,16 +12,8 @@ public record UpdateTripCommand(
         String unloadDirection,
         String unloadLocation,
         String unloadDate,
-        Long expenseId,
-        Long alertId,
-        Long ongoingTripId,
-        Long vehicleId,
-        Long driverId,
-        Long userId,
-        String destination,
-        String department,
-        String district,
-        String country,
+        Vehicle vehicleId,
+        Driver driverId,
         int numberPackages,
         String holderName,
         String destinationDate,

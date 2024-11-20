@@ -20,6 +20,6 @@ public record CreateRequestServiceCommand(
         double destinationLat,
         double destinationLng,
         String loadDetail,
-        String weight
+        double weight
 ) {
 }

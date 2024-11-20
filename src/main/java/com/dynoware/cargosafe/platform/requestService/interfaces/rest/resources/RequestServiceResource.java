@@ -24,6 +24,6 @@ public record RequestServiceResource(
         double destinationLat,
         double destinationLng,
         String loadDetail,
-        String weight
+        double weight
 ) {
 }

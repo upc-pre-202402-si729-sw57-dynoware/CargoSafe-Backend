@@ -36,41 +36,13 @@ public class Trip extends AuditableAbstractAggregateRoot<Trip> {
     @Column(nullable = false)
     private String unloadDate;
 
-    @ManyToOne
-    @JoinColumn(name = "expense_id", nullable = false)
-    private Expense expense;
-
-    @ManyToOne
-    @JoinColumn(name = "alert_id", nullable = false)
-    private Alert alert;
-
-    @ManyToOne
-    @JoinColumn(name = "ongoing_trip_id", nullable = false)
-    private OnGoingTrip ongoingTrip;
-
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @ManyToOne
-    @JoinColumn(name = "driver_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
     private Driver driver;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Column(nullable = false)
-    private String destination;
-
-    @Column(nullable = false)
-    private String department;
-
-    @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    private String country;
 
     @Column(nullable = false)
     private int numberPackages;
@@ -100,20 +72,12 @@ public class Trip extends AuditableAbstractAggregateRoot<Trip> {
         this.unloadDirection = command.unloadDirection();
         this.unloadLocation = command.unloadLocation();
         this.unloadDate = command.unloadDate();
-        this.expense = new Expense(command.expenseId());
-        this.alert = new Alert(command.alertId());
-        this.ongoingTrip = new OnGoingTrip(command.ongoingTripId());
-        this.vehicle = new Vehicle(command.vehicleId());
-        this.driver = new Driver(command.driverId());
-        this.user = new User(command.userId());
-        this.destination = command.destination();
-        this.department = command.department();
-        this.district = command.district();
-        this.country = command.country();
+        this.vehicle = null;
+        this.driver = null;
         this.numberPackages = command.numberPackages();
         this.holderName = command.holderName();
         this.destinationDate = command.destinationDate();
-        this.totalAmount = command.totalAmount();
+        this.totalAmount = 0.0;
         this.destinationAddress = command.destinationAddress();
         this.loadDetail = command.loadDetail();
         this.pickupAddress = command.pickupAddress();
@@ -126,16 +90,8 @@ public class Trip extends AuditableAbstractAggregateRoot<Trip> {
         this.unloadDirection = command.unloadDirection();
         this.unloadLocation = command.unloadLocation();
         this.unloadDate = command.unloadDate();
-        this.expense = new Expense(command.expenseId());
-        this.alert = new Alert(command.alertId());
-        this.ongoingTrip = new OnGoingTrip(command.ongoingTripId());
-        this.vehicle = new Vehicle(command.vehicleId());
-        this.driver = new Driver(command.driverId());
-        this.user = new User(command.userId());
-        this.destination = command.destination();
-        this.department = command.department();
-        this.district = command.district();
-        this.country = command.country();
+        this.vehicle = command.vehicleId();
+        this.driver = command.driverId();
         this.numberPackages = command.numberPackages();
         this.holderName = command.holderName();
         this.destinationDate = command.destinationDate();

@@ -2,9 +2,11 @@ package com.dynoware.cargosafe.platform.requestService.interfaces.rest;
 
 import com.dynoware.cargosafe.platform.requestService.application.internal.commandservices.RequestServiceCommandServiceImpl;
 import com.dynoware.cargosafe.platform.requestService.application.internal.queryservices.RequestServiceQueryServiceImpl;
+import com.dynoware.cargosafe.platform.requestService.application.internal.queryservices.StatusQueryServiceImpl;
 import com.dynoware.cargosafe.platform.requestService.domain.model.aggregates.RequestService;
 import com.dynoware.cargosafe.platform.requestService.domain.model.commands.DeleteRequestServiceCommand;
 import com.dynoware.cargosafe.platform.requestService.domain.model.commands.UpdateRequestServiceCommand;
+import com.dynoware.cargosafe.platform.requestService.domain.model.entities.Status;
 import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetAllRequestServiceQuery;
 import com.dynoware.cargosafe.platform.requestService.domain.model.queries.GetRequestServiceByIdQuery;
 import com.dynoware.cargosafe.platform.requestService.interfaces.rest.resources.CreateRequestServiceResource;
@@ -25,10 +27,12 @@ import java.util.Optional;
 public class RequestServiceController {
     private final RequestServiceCommandServiceImpl commandService;
     private final RequestServiceQueryServiceImpl queryService;
+    private final StatusQueryServiceImpl statusQueryService;
 
-    public RequestServiceController(RequestServiceCommandServiceImpl commandService, RequestServiceQueryServiceImpl queryService) {
+    public RequestServiceController(RequestServiceCommandServiceImpl commandService, RequestServiceQueryServiceImpl queryService, StatusQueryServiceImpl statusQueryService) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.statusQueryService = statusQueryService;
     }
 
     @PostMapping
@@ -72,31 +76,32 @@ public class RequestServiceController {
     public ResponseEntity<RequestServiceResource> updateRequestServiceStatus(@PathVariable Long id, @RequestBody UpdateRequestServiceStatusResource resource) {
         var requestService = queryService.handle(new GetRequestServiceByIdQuery(id))
                 .orElseThrow(() -> new IllegalArgumentException("RequestService not found"));
-
-        var status = commandService.updateStatus(requestService, resource.statusId());
-        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(status);
+        var updatedRequestService = commandService.updateStatus(requestService, resource.statusId());
+        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(updatedRequestService);
         return ResponseEntity.ok(requestServiceResource);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RequestServiceResource> getRequestServiceById(@PathVariable Long id) {
-        var query = new GetRequestServiceByIdQuery(id);
-        Optional<RequestService> requestService = queryService.handle(query);
-        if (requestService.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(requestService.get());
+        var requestService = queryService.handle(new GetRequestServiceByIdQuery(id))
+                .orElseThrow(() -> new IllegalArgumentException("RequestService not found"));
+        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(requestService);
         return ResponseEntity.ok(requestServiceResource);
     }
 
     @GetMapping
     public ResponseEntity<List<RequestServiceResource>> getAllRequestServices() {
-        var query = new GetAllRequestServiceQuery();
-        List<RequestService> requestServices = queryService.handle(query);
+        var requestServices = queryService.handle(new GetAllRequestServiceQuery());
         var requestServiceResources = requestServices.stream()
                 .map(RequestServiceResourceFromEntityAssembler::transformResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(requestServiceResources);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<Status>> getAllStatuses() {
+        var statuses = statusQueryService.handle();
+        return ResponseEntity.ok(statuses);
     }
 
     @DeleteMapping("/{id}")
@@ -104,5 +109,23 @@ public class RequestServiceController {
         var command = new DeleteRequestServiceCommand(id);
         commandService.handle(command);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/assignVehicle")
+    public ResponseEntity<RequestServiceResource> assignVehicle(@PathVariable Long id, @RequestBody Long vehicleId) {
+        var requestService = queryService.handle(new GetRequestServiceByIdQuery(id))
+                .orElseThrow(() -> new IllegalArgumentException("RequestService not found"));
+        var updatedRequestService = commandService.assignVehicle(requestService, vehicleId);
+        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(updatedRequestService);
+        return ResponseEntity.ok(requestServiceResource);
+    }
+
+    @PutMapping("/{id}/assignDriver")
+    public ResponseEntity<RequestServiceResource> assignDriver(@PathVariable Long id, @RequestBody Long driverId) {
+        var requestService = queryService.handle(new GetRequestServiceByIdQuery(id))
+                .orElseThrow(() -> new IllegalArgumentException("RequestService not found"));
+        var updatedRequestService = commandService.assignDriver(requestService, driverId);
+        var requestServiceResource = RequestServiceResourceFromEntityAssembler.transformResourceFromEntity(updatedRequestService);
+        return ResponseEntity.ok(requestServiceResource);
     }
 }

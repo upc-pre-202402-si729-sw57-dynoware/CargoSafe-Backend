@@ -20,7 +20,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/v1/trips")
-@Tag(name = "Trips", description = "Trip Management Endpoints")
 public class TripController {
     private final TripCommandService tripCommandService;
     private final TripQueryService tripQueryService;
@@ -66,16 +65,8 @@ public class TripController {
                 resource.unloadDirection(),
                 resource.unloadLocation(),
                 resource.unloadDate(),
-                resource.expenseId(),
-                resource.alertId(),
-                resource.ongoingTripId(),
                 resource.vehicleId(),
                 resource.driverId(),
-                resource.userId(),
-                resource.destination(),
-                resource.department(),
-                resource.district(),
-                resource.country(),
                 resource.numberPackages(),
                 resource.holderName(),
                 resource.destinationDate(),

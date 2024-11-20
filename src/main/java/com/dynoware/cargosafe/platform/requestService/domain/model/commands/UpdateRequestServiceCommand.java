@@ -21,6 +21,6 @@ public record UpdateRequestServiceCommand(
         double destinationLat,
         double destinationLng,
         String loadDetail,
-        String weight
+        double weight
 ) {
 }
