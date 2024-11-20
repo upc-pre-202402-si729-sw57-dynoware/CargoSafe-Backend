@@ -1,10 +1,11 @@
 package com.dynoware.cargosafe.platform.trips.domain.model.aggregates;
 
 import com.dynoware.cargosafe.platform.trips.domain.model.commands.CreateDriverCommand;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Entity
 @Table(name = "drivers")

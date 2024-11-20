@@ -3,6 +3,7 @@ package com.dynoware.cargosafe.platform.trips.domain.model.aggregates;
 import com.dynoware.cargosafe.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.dynoware.cargosafe.platform.trips.domain.model.commands.CreateVehicleCommand;
 import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateVehicleCommand;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.jsonwebtoken.lang.Strings;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "vehicles")
 public class Vehicle extends AuditableAbstractAggregateRoot<Vehicle> {
     @Id

@@ -57,6 +57,15 @@ public class DriverController {
         return ResponseEntity.ok(driverResources);
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DriverResource> getDriverById(@PathVariable Long id) {
+        var getDriverByIdQuery = new GetDriverByIdQuery(id);
+        var driver = driverQueryService.handle(getDriverByIdQuery);
+        if (driver.isEmpty()) return ResponseEntity.notFound().build();
+        var driverResource = DriverResourceFromEntityAssembler.toResourceFromEntity(driver.get());
+        return ResponseEntity.ok(driverResource);
+    }
     @PutMapping("/{driverId}")
     public ResponseEntity<DriverResource> updateDriver(@PathVariable Long driverId, @RequestBody UpdateDriverResource updateDriverResource) {
         var updateDriverCommand = UpdateDriverCommandFromResourceAssembler.toCommandFromResource(driverId, updateDriverResource);
