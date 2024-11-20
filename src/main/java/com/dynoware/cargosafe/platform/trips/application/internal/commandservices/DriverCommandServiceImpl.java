@@ -33,6 +33,10 @@ public class DriverCommandServiceImpl implements DriverCommandService {
     }
 
     @Override
+    public boolean existsById(Long driverId) {
+        return driverRepository.existsById(driverId);
+    }
+    @Override
     public Optional<Driver> handle(UpdateDriverCommand command) {
         if (driverRepository.existsByNameAndIdIsNot(command.name(), command.id()))
             throw new IllegalArgumentException("Driver with same name already exists");

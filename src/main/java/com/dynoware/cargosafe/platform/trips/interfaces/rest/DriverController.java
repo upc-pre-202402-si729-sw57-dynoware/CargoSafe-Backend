@@ -66,11 +66,15 @@ public class DriverController {
         var driverResource = DriverResourceFromEntityAssembler.toResourceFromEntity(driver.get());
         return ResponseEntity.ok(driverResource);
     }
+
     @PutMapping("/{driverId}")
     public ResponseEntity<DriverResource> updateDriver(@PathVariable Long driverId, @RequestBody UpdateDriverResource updateDriverResource) {
+        if (updateDriverResource.photoUrl() == null || updateDriverResource.photoUrl().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         var updateDriverCommand = UpdateDriverCommandFromResourceAssembler.toCommandFromResource(driverId, updateDriverResource);
         var updateDriver = driverCommandService.handle(updateDriverCommand);
-        if (updateDriver.isEmpty()){
+        if (updateDriver.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
         var driverResource = DriverResourceFromEntityAssembler.toResourceFromEntity(updateDriver.get());
@@ -79,6 +83,9 @@ public class DriverController {
 
     @DeleteMapping("{driverId}")
     public ResponseEntity<?> deleteDriver(@PathVariable Long driverId) {
+        if (!driverCommandService.existsById(driverId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Driver does not exist");
+        }
         var deleteDriverCommand = new DeleteDriverCommand(driverId);
         driverCommandService.handle(deleteDriverCommand);
         return ResponseEntity.ok("Driver deleted successfully");

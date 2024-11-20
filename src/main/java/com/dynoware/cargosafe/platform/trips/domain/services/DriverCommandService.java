@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface DriverCommandService {
     Long handle(CreateDriverCommand command);
     Optional<Driver> handle(UpdateDriverCommand command);
-
+    boolean existsById(Long driverId);
     void handle(DeleteDriverCommand command);
 }
