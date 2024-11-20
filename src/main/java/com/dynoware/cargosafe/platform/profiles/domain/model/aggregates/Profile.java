@@ -1,5 +1,6 @@
 package com.dynoware.cargosafe.platform.profiles.domain.model.aggregates;
 
+import com.dynoware.cargosafe.platform.iam.domain.model.aggregates.User;
 import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.EmailAddress;
 import com.dynoware.cargosafe.platform.profiles.domain.model.valueobjects.PersonName;
@@ -34,6 +35,17 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.name = new PersonName(firstName, lastName);
         this.emailAddress = new EmailAddress(email);
         this.streetAddress = new StreetAddress(street, number, city, postalCode, country);
+    }
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Profile() {}

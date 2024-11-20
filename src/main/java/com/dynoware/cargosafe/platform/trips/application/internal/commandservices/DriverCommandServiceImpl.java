@@ -40,7 +40,7 @@ public class DriverCommandServiceImpl implements DriverCommandService {
         if (result.isEmpty()) throw new IllegalArgumentException("Driver does not exist");
         var driverToUpdate = result.get();
         try {
-            var updateDriver = driverRepository.save(driverToUpdate.updateInformation(command.name(), command.dni(), command.license(),command.contactNum()));
+            var updateDriver = driverRepository.save(driverToUpdate.updateInformation(command.name(), command.dni(), command.license(),command.contactNum(),command.urlPhoto()));
             return Optional.of(updateDriver);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating driver: " + e.getMessage());

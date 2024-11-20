@@ -1,23 +1,23 @@
 package com.dynoware.cargosafe.platform.trips.interfaces.rest.resources;
 
-public record CreateExpenseResource(int fuel_amount, String fuel_description, int viatics_amount, String viatics_description, int tolls_amount, String tolls_description) {
+public record CreateExpenseResource(int fuelAmount, String fuelDescription, int viaticsAmount, String viaticsDescription, int tollsAmount, String tollsDescription) {
     public CreateExpenseResource {
-        if (fuel_amount <= 0) {
+        if (fuelAmount <= 0) {
             throw new IllegalArgumentException("Fuel amount must be greater than 0");
         }
-        if (fuel_description == null || fuel_description.isBlank()) {
+        if (fuelDescription == null || fuelDescription.isBlank()) {
             throw new IllegalArgumentException("Fuel description cannot be null or empty");
         }
-        if (viatics_amount <= 0) {
+        if (viaticsAmount <= 0) {
             throw new IllegalArgumentException("Viatics amount must be greater than 0");
         }
-        if (viatics_description == null || viatics_description.isBlank()) {
+        if (viaticsDescription == null || viaticsDescription.isBlank()) {
             throw new IllegalArgumentException("Viatics description cannot be null or empty");
         }
-        if (tolls_amount <= 0) {
+        if (tollsAmount <= 0) {
             throw new IllegalArgumentException("Tolls amount must be greater than 0");
         }
-        if (tolls_description == null || tolls_description.isBlank()) {
+        if (tollsDescription == null || tollsDescription.isBlank()) {
             throw new IllegalArgumentException("Tolls description cannot be null or empty");
         }
     }

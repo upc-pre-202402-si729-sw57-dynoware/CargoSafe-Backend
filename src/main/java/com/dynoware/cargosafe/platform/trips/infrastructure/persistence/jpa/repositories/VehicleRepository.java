@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Optional<Vehicle> findByModel(String model);
     boolean existsByModel(String model);
+    boolean existsByModelAndIdIsNot(String model, Long id);
 }

@@ -9,7 +9,6 @@ import com.dynoware.cargosafe.platform.trips.infrastructure.persistence.jpa.repo
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 @Service
 public class VehicleCommandServiceImpl implements VehicleCommandService {
     private final VehicleRepository vehicleRepository;
@@ -19,45 +18,30 @@ public class VehicleCommandServiceImpl implements VehicleCommandService {
     }
 
     @Override
-    public Optional<Vehicle> handle(CreateVehicleCommand command) {
-        if (vehicleRepository.existsByModel(command.model())) {
-            throw new IllegalArgumentException("A vehicle with that model already exists");
-        }
-        var vehicle = new Vehicle(command);
-        try {
-            vehicleRepository.save(vehicle);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while creating a new vehicle");
-        }
-
-        return Optional.of(vehicle);
+    public void createVehicle(CreateVehicleCommand command) {
+        Vehicle vehicle = new Vehicle(command.model(), command.plate(), command.maxLoad(), command.volume(), command.photoUrl());
+        vehicleRepository.save(vehicle);
     }
 
     @Override
-    public Optional<Vehicle> handle(UpdateVehicleCommand command) {
-        if (vehicleRepository.existsByModel(command.model())) {
-            throw new IllegalArgumentException("A vehicle with that model already exists");
-        }
-        var vehicle = vehicleRepository.findById(command.id());
-        if (vehicle.isEmpty()) throw new IllegalArgumentException("A vehicle with that id does not exist");
-        var newVehicle = vehicle.get();
-        try {
-            var updatedVehicle = vehicleRepository.save(newVehicle.updateVehicle(command));
-            return Optional.of(updatedVehicle);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while updating the vehicle");
-        }
+    public void handle(CreateVehicleCommand command) {
+        createVehicle(command);
     }
 
     @Override
-    public void handle(DeleteVehicleCommand command) {
-        if (!vehicleRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("A vehicle with that id does not exist");
-        }
-        try {
-            vehicleRepository.deleteById(command.id());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while deleting the vehicle");
-        }
+    public void updateVehicle(UpdateVehicleCommand command) {
+        Vehicle vehicle = vehicleRepository.findById(command.id())
+                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+        vehicle.setModel(command.model());
+        vehicle.setPlate(command.plate());
+        vehicle.setMaxLoad(command.maxLoad());
+        vehicle.setVolume(command.volume());
+        vehicle.setPhotoUrl(command.photoUrl());
+        vehicleRepository.save(vehicle);
+    }
+
+    @Override
+    public void deleteVehicle(DeleteVehicleCommand command) {
+        vehicleRepository.deleteById(command.id());
     }
 }

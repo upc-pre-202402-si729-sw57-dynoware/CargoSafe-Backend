@@ -5,12 +5,15 @@ import com.dynoware.cargosafe.platform.iam.application.internal.outboundservices
 import com.dynoware.cargosafe.platform.iam.domain.model.aggregates.User;
 import com.dynoware.cargosafe.platform.iam.domain.model.commands.SignInCommand;
 import com.dynoware.cargosafe.platform.iam.domain.model.commands.SignUpCommand;
+import com.dynoware.cargosafe.platform.iam.domain.model.entities.UserProfile;
 import com.dynoware.cargosafe.platform.iam.domain.services.UserCommandService;
 import com.dynoware.cargosafe.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.dynoware.cargosafe.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileCommandService;
+import com.dynoware.cargosafe.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
+import com.dynoware.cargosafe.platform.profiles.infrastructure.persistence.jpa.repositories.UserProfileRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +33,14 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final TokenService tokenService;
     private final RoleRepository roleRepository;
     private final ProfileCommandService profileCommandService;
-
-    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository, ProfileCommandService profileCommandService) {
+   private final UserProfileRepository userProfileRepository;
+    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository, ProfileCommandService profileCommandService, UserProfileRepository userProfileRepository) {
         this.userRepository = userRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
         this.roleRepository = roleRepository;
         this.profileCommandService = profileCommandService;
+        this.userProfileRepository  = userProfileRepository;
     }
 
     @Override
@@ -62,6 +66,13 @@ public class UserCommandServiceImpl implements UserCommandService {
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         user.setProfile(profile.get());
         userRepository.save(user);
+
+
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUserId(user.getId());
+        userProfile.setProfileId(profile.get().getId());
+        userProfileRepository.save(userProfile);
+
         return userRepository.findByUsername(command.username());
     }
 

@@ -18,32 +18,36 @@ public class Expense extends AuditableAbstractAggregateRoot<Expense> {
     private Long id;
 
     @Column(nullable = false)
-    private int fuel_amount;
+    private int fuelAmount;
 
     @Column(nullable = false)
-    private String fuel_description;
+    private String fuelDescription;
 
     @Column(nullable = false)
-    private int viatics_amount;
+    private int viaticsAmount;
 
     @Column(nullable = false)
-    private String viatics_description;
+    private String viaticsDescription;
 
     @Column(nullable = false)
-    private int tolls_amount;
+    private int tollsAmount;
 
     @Column(nullable = false)
-    private String tolls_description;
+    private String tollsDescription;
 
     protected Expense() {}
 
     public Expense(CreateExpenseCommand command) {
-        this.fuel_amount = command.fuel_amount();
-        this.fuel_description = command.fuel_description();
-        this.viatics_amount = command.viatics_amount();
-        this.viatics_description = command.viatics_description();
-        this.tolls_amount = command.tolls_amount();
-        this.tolls_description = command.tolls_description();
+        this.fuelAmount = command.fuelAmount();
+        this.fuelDescription = command.fuelDescription();
+        this.viaticsAmount = command.viaticsAmount();
+        this.viaticsDescription = command.viaticsDescription();
+        this.tollsAmount = command.tollsAmount();
+        this.tollsDescription = command.tollsDescription();
 
+    }
+
+    public Expense(Long id) {
+        this.id = id;
     }
 }

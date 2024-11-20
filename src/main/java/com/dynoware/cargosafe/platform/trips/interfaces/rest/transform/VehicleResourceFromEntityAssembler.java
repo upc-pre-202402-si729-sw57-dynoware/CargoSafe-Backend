@@ -10,8 +10,8 @@ public class VehicleResourceFromEntityAssembler {
                 entity.getModel(),
                 entity.getPlate(),
                 entity.getVolume(),
-                entity.getMax_load(),
-                entity.getPhoto_url()
+                entity.getMaxLoad(),
+                entity.getPhotoUrl()
         );
     }
 }

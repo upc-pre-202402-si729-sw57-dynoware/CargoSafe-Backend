@@ -6,6 +6,6 @@ import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.CreateDri
 public class CreateDriverCommandFromResourceAssembler {
 
     public static CreateDriverCommand toCommandFromResource(CreateDriverResource resource){
-        return new CreateDriverCommand(resource.name(),resource.dni(), resource.license(), resource.contactNum());
+        return new CreateDriverCommand(resource.name(),resource.dni(), resource.license(), resource.contactNum(),resource.photoUrl());
     }
 }

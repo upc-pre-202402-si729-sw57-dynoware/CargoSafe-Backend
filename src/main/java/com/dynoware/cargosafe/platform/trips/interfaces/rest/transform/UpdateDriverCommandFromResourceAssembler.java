@@ -4,7 +4,14 @@ import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateDriverC
 import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.UpdateDriverResource;
 
 public class UpdateDriverCommandFromResourceAssembler {
-    public static UpdateDriverCommand toCommandFromResource(Long driverId, UpdateDriverResource resource) {
-        return new UpdateDriverCommand(driverId, resource.name(), resource.dni(), resource.license(), resource.contactNum());
+    public static UpdateDriverCommand toCommandFromResource(Long driverId,
+                                                            UpdateDriverResource resource)
+    {
+        return new UpdateDriverCommand(driverId,
+                resource.name(),
+                resource.dni(),
+                resource.license(),
+                resource.contactNum(),
+                resource.photoUrl());
     }
 }

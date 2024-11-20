@@ -5,6 +5,6 @@ import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.ExpenseRe
 
 public class ExpenseResourceFromEntityAssembler {
     public static ExpenseResource toResourceFromEntity(Expense entity) {
-        return new ExpenseResource(entity.getId(), entity.getFuel_amount(), entity.getFuel_description(), entity.getViatics_amount(), entity.getViatics_description(), entity.getTolls_amount(), entity.getTolls_description());
+        return new ExpenseResource(entity.getId(), entity.getFuelAmount(), entity.getFuelDescription(), entity.getViaticsAmount(), entity.getViaticsDescription(), entity.getTollsAmount(), entity.getTollsDescription());
     }
 }

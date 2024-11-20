@@ -8,7 +8,8 @@ import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateVehicle
 import java.util.Optional;
 
 public interface VehicleCommandService {
-    Optional<Vehicle> handle (CreateVehicleCommand command);
-    Optional<Vehicle> handle (UpdateVehicleCommand command);
-    void handle (DeleteVehicleCommand command);
+    void createVehicle(CreateVehicleCommand command);
+    void updateVehicle(UpdateVehicleCommand command);
+    void deleteVehicle(DeleteVehicleCommand command);
+    void handle(CreateVehicleCommand command);
 }

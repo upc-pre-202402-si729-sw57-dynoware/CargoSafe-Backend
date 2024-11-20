@@ -4,14 +4,14 @@ import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateVehicle
 import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.UpdateVehicleResource;
 
 public class UpdateVehicleCommandFromResourceAssembler {
-    public static UpdateVehicleCommand toCommandFromResource(long id, UpdateVehicleResource resource) {
+    public static UpdateVehicleCommand toCommandFromResource(Long vehicleId, UpdateVehicleResource resource) {
         return new UpdateVehicleCommand(
-                id,
+                vehicleId,
                 resource.model(),
                 resource.plate(),
-                resource.max_load(),
+                resource.maxLoad(),
                 resource.volume(),
-                resource.photo_url()
+                resource.photoUrl()
         );
     }
 }

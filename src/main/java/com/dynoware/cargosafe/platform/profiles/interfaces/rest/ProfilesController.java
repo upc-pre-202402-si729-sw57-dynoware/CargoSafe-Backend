@@ -4,6 +4,7 @@ import com.dynoware.cargosafe.platform.profiles.domain.model.aggregates.Profile;
 import com.dynoware.cargosafe.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.dynoware.cargosafe.platform.profiles.domain.model.queries.GetProfileByUsernameQuery;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileCommandService;
 import com.dynoware.cargosafe.platform.profiles.domain.services.ProfileQueryService;
 import com.dynoware.cargosafe.platform.profiles.interfaces.rest.resources.CreateProfileResource;
@@ -105,4 +106,20 @@ public class ProfilesController {
         if (!profileDeleted) return ResponseEntity.notFound().build();
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/username/{username}")
+    @Operation(summary = "Get profile by username")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Profile found"),
+            @ApiResponse(responseCode = "404", description = "Profile not found")
+    })
+    public ResponseEntity<ProfileResource> getProfileByUsername(@PathVariable String username) {
+        var query = new GetProfileByUsernameQuery(username);
+        var profile = profileQueryService.handle(query);
+        if (profile.isEmpty()) return ResponseEntity.notFound().build();
+        var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(profile.get());
+        return ResponseEntity.ok(profileResource);
+    }
+
+
 }

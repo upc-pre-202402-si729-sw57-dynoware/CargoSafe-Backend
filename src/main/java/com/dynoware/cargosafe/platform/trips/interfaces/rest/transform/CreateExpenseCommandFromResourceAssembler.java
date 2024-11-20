@@ -5,6 +5,6 @@ import com.dynoware.cargosafe.platform.trips.interfaces.rest.resources.CreateExp
 
 public class CreateExpenseCommandFromResourceAssembler {
     public static CreateExpenseCommand toCommandFromResource(CreateExpenseResource resource) {
-        return new CreateExpenseCommand(resource.fuel_amount(), resource.fuel_description(), resource.viatics_amount(), resource.viatics_description(), resource.tolls_amount(), resource.tolls_description());
+        return new CreateExpenseCommand(resource.fuelAmount(), resource.fuelDescription(), resource.viaticsAmount(), resource.viaticsDescription(), resource.tollsAmount(), resource.tollsDescription());
     }
 }

@@ -103,4 +103,8 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    public User(Long id) {
+        super(id);
+    }
 }

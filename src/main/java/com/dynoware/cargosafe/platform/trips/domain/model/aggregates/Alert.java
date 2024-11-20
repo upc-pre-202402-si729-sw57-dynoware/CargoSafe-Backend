@@ -35,4 +35,8 @@ public class Alert extends AuditableAbstractAggregateRoot<Alert> {
         this.description = command.description();
         this.date = command.date();
     }
+
+    public Alert(Long id) {
+        this.id = id;
+    }
 }

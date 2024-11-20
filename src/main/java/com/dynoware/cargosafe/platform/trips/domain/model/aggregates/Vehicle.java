@@ -3,41 +3,92 @@ package com.dynoware.cargosafe.platform.trips.domain.model.aggregates;
 import com.dynoware.cargosafe.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.dynoware.cargosafe.platform.trips.domain.model.commands.CreateVehicleCommand;
 import com.dynoware.cargosafe.platform.trips.domain.model.commands.UpdateVehicleCommand;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.jsonwebtoken.lang.Strings;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 @Table(name = "vehicles")
 public class Vehicle extends AuditableAbstractAggregateRoot<Vehicle> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String model;
-    private String plate;
-    private float max_load;
-    private float volume;
-    private String photo_url;
 
-    public Vehicle(CreateVehicleCommand command){
-        this.model = command.model();
-        this.plate = command.plate();
-        this.max_load = command.max_load();
-        this.volume = command.volume();
-        this.photo_url = command.photo_url();
+    @Column(name = "model", nullable = false)
+    private String model;
+
+    @Column(name = "plate", nullable = false)
+    private String plate;
+
+    @Column(name = "max_load", nullable = false)
+    private float maxLoad;
+
+    @Column(name = "volume", nullable = false)
+    private float volume;
+
+    @Column(name = "photo_url", nullable = false)
+    private String photoUrl;
+
+    public Vehicle() {
+        this.model = Strings.EMPTY;
+        this.plate = Strings.EMPTY;
+        this.maxLoad = 0.0f;
+        this.volume = 0.0f;
+        this.photoUrl = Strings.EMPTY;
     }
 
-    public Vehicle updateVehicle(UpdateVehicleCommand command) {
+    public Vehicle(String model, String plate, float maxLoad, float volume, String photoUrl) {
+        this();
+        this.model = model;
+        this.plate = plate;
+        this.maxLoad = maxLoad;
+        this.volume = volume;
+        this.photoUrl = photoUrl;
+    }
+
+    public Vehicle(CreateVehicleCommand command) {
+        this();
         this.model = command.model();
         this.plate = command.plate();
-        this.max_load = command.max_load();
+        this.maxLoad = command.maxLoad();
         this.volume = command.volume();
-        this.photo_url = command.photo_url();
+        this.photoUrl = command.photoUrl();
+    }
+
+    public Vehicle updateVehicle(String model, String plate, float maxLoad, float volume, String photoUrl) {
+        this.model = model;
+        this.plate = plate;
+        this.maxLoad = maxLoad;
+        this.volume = volume;
+        this.photoUrl = photoUrl;
         return this;
+    }
+
+    public Vehicle(Long id) {
+        this.id = id;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setMaxLoad(float maxLoad) {
+        this.maxLoad = maxLoad;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }
